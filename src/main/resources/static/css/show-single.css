@@ -1,0 +1,59 @@
+/*商品详情样式*/
+.goods-detail{width: 1120px; height: auto; margin-bottom: 30px; display: table;}
+/*商品详情样式结束*/
+
+/*商品详情top样式*/
+.goods-detail-top{width: 1120px; height: 60px; margin-bottom: 20px; border-top: 2px solid #000; border-bottom: 1px solid #ddd; border-radius: 0 0 4px 4px;}
+.goods-detail-top-left{width: 200px; height: 30px; padding: 15px; border-left: 1px solid #ddd; border-right: 1px solid #ddd; border-radius: 0 0 0 4px;}
+.goods-detail-top-right{width: 857px; height: 30px; padding: 15px; border-right: 1px solid #ddd; border-radius: 0 0 4px 0;}
+
+.goods-detail-top-left-img{width: 30px; height: 30px;}
+.goods-detail-top-left-name{width: 158px; height: 30px; margin-left: 12px;}
+
+.goods-detail-top-left-name span.name{font-size: 16px; line-height: 30px;}
+.goods-detail-top-right span.right1{font-size: 14px; line-height: 30px; color: #6C6C6C;}
+.goods-detail-top-right span.right2{font-size: 16px; line-height: 30px;}
+/*商品详情top样式结束*/
+
+/*商品详情left样式*/
+.goods-detail-left{width: 690px;height: auto; display: block;}
+.goods-detail-img{width: 690px; height: 580px; margin-bottom: 30px; background-image: url("../images/goodsImg/bg.png");}
+.goods-detail-messages{width: 690px; height: auto; border-radius: 4px 0 0 0; background-color: #fff;}
+.goods-detail-messages-top{width: 100px; height: 40px; border-radius: 4px 4px 0 0; margin-right: 590px; text-align: center; color: #fff; font-size: 16px; line-height: 40px; background-color: #ffd84d;}
+.goods-detail-messages-content{width: 660px; height: auto; min-height: 100px; padding: 15px; border: 1px solid #e6e6e6; border-top: 4px solid #ffd84d;}
+.goods-detail-messages-item{width: 660px; height: 40px; line-height: 24px;}
+.goods-detail-messages-name{width: 144px; height: 39px; border-bottom: 1px solid #e6e6e6;}
+.goods-detail-messages-msg{width: 516px; height: 40px;}
+.goods-detail-messages-input{width: 549px; height: 26px; margin-top: 4px; border: 1px solid #ffd84d; font-size: 15px;}
+.goods-detail-messages-button{width: 50px; height: 27px; margin-left: 10px; background-color: #ffd84d; font-size: 15px;}
+
+.goods-detail-messages-msg span.date{font-size: 10px; line-height: 16px; color: #aaaaaa;}
+/*商品详情left样式结束*/
+
+/*商品详情right样式*/
+.goods-detail-right{width: 420px; height: auto; margin-left: 10px; display: block;}
+
+/*商品详情right，info(上部分)样式*/
+.goods-detail-info{width: 420px; height: auto; margin-bottom: 40px;}
+.goods-detail-jiange{width: 420px; height: 1px; margin: 7px 0; background-color: #e6e6e6;}
+
+.goods-detail-info-title{width: 420px; height: 62px;}
+.goods-detail-info-key{width: 82px; height: 35px;}
+.goods-detail-info-value{width: 338px; height: 35px;}
+.goods-detail-info-button{width: 420px; height: 38px; margin-top: 15px;}
+
+.button-buy{width: 160px; height: 38px; background-color: #ff0000;}
+.button-collect{width: 80px; height: 38px; background-color: #FFA500;}
+
+.goods-detail-info span.title{font-size: 22px; line-height: 31px;}
+.goods-detail-info span.key{font-size: 15px; line-height: 35px;}
+.goods-detail-info span.value{font-size: 24px; line-height: 35px; color: #ff0000;}
+/*商品详情right，info(上部分)样式结束*/
+
+/*商品详情right，商品介绍(下部分)样式*/
+.goods-detail-intro{width: 420px; height: auto; border-radius: 4px 0 0 0;}
+.goods-detail-intro-top{width: 100px; height: 40px; border-radius: 4px 4px 0 0; margin-right: 320px; text-align: center; color: #fff; font-size: 16px; line-height: 40px; background-color: #ffd84d;}
+.goods-detail-intro-content{width: 388px; height: auto; min-height: 180px; padding: 15px; border: 1px solid #e6e6e6; border-top: 4px solid #ffd84d;}
+/*商品详情right，商品介绍(下部分)样式结束*/
+
+/*商品详情right样式结束*/

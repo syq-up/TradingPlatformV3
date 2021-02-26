@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.shiyq.mapper.GoodsMapper">
+    <!--开启缓存-->
+    <cache
+            eviction="FIFO"
+            flushInterval="60000"
+            size="512"
+            readOnly="true"/>
+
+    <resultMap id="goods_uDetail" type="Goods">
+        <result property="goodsId" column="goods_id"/>
+        <result property="goodsImg" column="goods_img"/>
+        <result property="goodsName" column="goods_name"/>
+        <result property="newPrice" column="new_price"/>
+        <result property="oldPrice" column="old_price"/>
+        <result property="quality" column="quality"/>
+        <result property="tradeWay" column="trade_way"/>
+        <result property="goodsDetail" column="goods_detail"/>
+        <result property="sort" column="sort"/>
+        <result property="lastEditTime" column="last_edit_time"/>
+        <result property="state" column="state"/>
+        <association property="userDetail" column="user_detail"
+                     javaType="UserDetail" select="findUserDetailById"/>
+    </resultMap>
+    <select id="findAllGoodsBySort" resultMap="goods_uDetail" useCache="true">
+        select * from goods
+        <if test="sort != null">
+            where sort=#{sort}
+        </if>
+        order by last_edit_time asc
+    </select>
+
+    <select id="findUserDetailById" resultType="UserDetail">
+        select * from user_detail where detail_id=#{user_detail}
+    </select>
+
+    <select id="findSingleGoodsById" resultMap="goods_uDetail">
+        select * from goods where goods_id=#{goodsId}
+    </select>
+
+    <select id="findAllMsgByGoodsId" resultType="GoodsGuestbook" useCache="true">
+        select * from goods_guestbook where goods_id=#{goodsId}
+    </select>
+
+    <insert id="saveGoods">
+        insert into goods(user_detail, goods_img, goods_name, new_price, old_price,
+                          quality, trade_way, goods_detail, sort, last_edit_time, state)
+        values (#{userDetail.detailId}, #{goodsImg}, #{goodsName}, #{newPrice}, #{oldPrice},
+                #{quality}, #{tradeWay}, #{goodsDetail}, #{sort}, #{lastEditTime}, #{state})
+    </insert>
+
+    <select id="findAllMyGoodsByUserId" resultType="Goods" useCache="true">
+        select * from goods where user_detail=#{userDetail}
+    </select>
+
+    <resultMap id="goods_collection" type="GoodsCollection">
+        <result property="collectionId" column="collection_id"/>
+        <result property="userId" column="user_id"/>
+        <association property="goods" column="goods"
+                     javaType="Goods" select="findSingleGoodsById"/>
+    </resultMap>
+    <select id="findAllMyCollectionByUserId" resultMap="goods_collection" useCache="true">
+        select * from goods_collection where user_id=#{userId}
+    </select>
+
+    <insert id="saveCollectionByUserIdAndGoodsId" parameterType="hashMap">
+        insert into goods_collection (user_id, goods)
+        values (#{userId}, #{goodsId})
+    </insert>
+
+    <delete id="deleteCollectionById">
+        delete from goods_collection where collection_id=#{collectionId}
+    </delete>
+
+    <resultMap id="goods_order" type="UserOrder">
+        <result property="orderId" column="order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="datetime" column="datetime"/>
+        <association property="goods" column="goods"
+                     javaType="Goods" select="findSingleGoodsById"/>
+    </resultMap>
+    <select id="findAllMyOrderByUserId" resultMap="goods_order" useCache="true">
+        select * from user_order where user_id=#{userId}
+    </select>
+
+    <insert id="saveOrder">
+        insert into user_order (user_id, goods, datetime)
+        values (#{userId}, #{goods.goodsId}, #{datetime})
+    </insert>
+
+    <delete id="deleteOrderById">
+        delete from user_order where order_id=#{orderId}
+    </delete>
+</mapper>

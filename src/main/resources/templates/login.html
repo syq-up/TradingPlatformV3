@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>登录</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/signin.css}" rel="stylesheet">
+</head>
+
+<body class="text-center">
+<form id="form" class="form-signin" th:action="@{/user/login}" method="post" onsubmit="return encrypt()">
+    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72" src="">
+    <h1 class="h3 mb-3 font-weight-normal" th:text="请登录"></h1>
+    <p style="color: red;text-align: left;margin: 0;" th:text="${msg}"></p>
+    <label class="sr-only" for="username" th:text="用户名"></label>
+    <input type="text" class="form-control" id="username" name="username" th:placeholder="用户名" required autofocus>
+    <label class="sr-only" for="password" th:text="密码"></label>
+    <input type="password" class="form-control" id="password" name="password" th:placeholder="密码" required>
+    <input type="password" id="pwd" name="pwd" hidden>
+    <div class="checkbox mb-3" style="height: 32px">
+        <label style="float: left;">
+            <input type="checkbox" name="remember-me"> 十天内免登录
+        </label>
+        <div style="height: 32px; float: right;">
+            加入我们！<a th:href="@{/user/register}">去注册</a>
+        </div>
+    </div>
+    <button id="btn" class="btn btn-lg btn-primary btn-block">登录</button>
+    <p class="mt-5 mb-3 text-muted">© 2019-2021</p>
+</form>
+
+<script th:src="@{https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js}"></script>
+<script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+<script>
+    if ([[${session.user!=null}]]){
+        window.location.href="/goods/all/recent/1";
+    }
+
+    let msg, username, password, pwd;
+    msg = $("#msg");
+    username = $("#username");
+    password = $("#password");
+    pwd = $("#pwd");
+
+    function encrypt(){
+        pwd.val(md5(username.val()+password.val()));
+        return true
+    }
+
+    // $("#btn").click(function () {
+    //     pwd.val(md5(username.val()+password.val()));
+    //     $.ajax({
+    //         type: "post",
+    //         url: "/user/login",
+    //         data: {"username":username.val(), "pwd":pwd.val()},
+    //         //dataType: "json",
+    //         success: function (data) {
+    //             if (data!==null){
+    //                 msg.val(data);
+    //             }
+    //             // window.location.href = "/";
+    //         }
+    //     });
+    //
+    // });
+</script>
+</body>
+
+</html>

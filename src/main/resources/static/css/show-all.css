@@ -1,0 +1,69 @@
+/*body*/
+body{font-size:12px; text-align: center; color: #6C6C6C; background-color: #f2f2f2;}
+/*body结束*/
+
+/*head-show-all样式*/
+.head-show-all{width:100%; height:354px; margin-bottom:30px; background-color: #ffd84d;}
+.head-show-all_body{width:1120px; height:354px; position:relative;}
+
+.head-show-all_top{width:1120px; height:70px; position: absolute; z-index:2;}
+.head-show-all_top_left{width: 640px; height: 50px; position: absolute; top: 20px; text-align: left;}
+.head-show-all_top_right{width: 480px; height: 50px; padding-left: 30px; position: absolute; top: 20px; left: 640px; text-align: left;}
+.head-show-all_top_left span.left{font-size: 40px; color: #000; line-height:50px;}
+.head-show-all_top_right span.right1{font-size: 21px; font-weight: 900; color: #000; line-height:50px;}
+.head-show-all_top_right span.right2{font-size: 20px; color: #000; line-height:50px;}
+
+.head-show-all_top_right_item{width: auto; height: 50px; margin-left: 60px;}
+
+.head-show-all_img1{width: 170px; height: auto; position: absolute; left: 70px; bottom: 0;}
+.head-show-all_img2{width: 170px; height: auto; position: absolute; left: 230px; bottom: 0;}
+.head-show-all_img3{width: 170px; height: auto; position: absolute; left: 388px; bottom: 0;}
+
+/*用户卡片样式*/
+.usercard{width:370px; height:225px; position: absolute; right: 0; bottom: -10px; border-radius: 4px; background-color: #fff; }
+
+.usercard-info{width:370px; height:90px; position: absolute;}
+.usercard-info-left{width:60px; height:60px; position: absolute; left: 20px; bottom: 0;}
+.usercard-info-right{width:250px; height:46px; text-align: left; position: absolute; left: 90px; bottom: 8px;}
+.usercard-info-right span.right1{font-size: 22px; line-height: 26px; color: #000;}
+.usercard-info-right span.right2{font-size: 14px; line-height: 20px; color: #000;}
+
+.usercard-list{width:360px; height:85px; padding: 35px 0 15px 10px; border-radius: 4px; position: absolute; top:90px;}
+.usercard-list-item{width:90px; height:85px; display: block; cursor: hand}
+.usercard-list-item-img{width:26px; height:26px; margin-bottom:10px;}
+.usercard-list-item-name{width:90px; height:18px; margin-bottom:6px;}
+.usercard-list-item-num{width:90px; height:25px;}
+.usercard-list-item-name span.name{font-size: 13px; line-height: 18px; color: #000;}
+.usercard-list-item-num span.num{font-size: 20px; line-height: 25px; color: #000;}
+/*用户卡片样式结束*/
+/*head-show-all样式结束*/
+
+/*导航样式*/
+.navi{width: 1055px; height: 34px; border-radius: 4px; padding: 13px 0 13px 65px; margin-bottom: 10px; background-color: #ffd84d;}
+.navi-item-i{width: auto; height: 28px; margin-right: 60px; display: block; cursor: hand}
+.navi-item-line{width: 100%; height: 2px; margin-top: 4px; background-color: #000;}
+.navi-item{width: auto; height: 34px; margin-right: 60px; display: block;}
+
+.navi span.name-i{font-size: 20px; height: 28px; line-height: 28px; font-weight: 700; color: #000;}
+.navi span.name{font-size: 16px; height: 34px; line-height: 34px; color: #222;}
+.button-a{border: none; background-color: #ffd84d;}
+.button-a:active{transform: translateY(0);}
+/*导航样式结束*/
+
+/*全部商品循环样式*/
+.show_all{width: 1125px; height: auto; display: table;}
+/*全部商品循环样式结束*/
+
+/*单个商品循环样式*/
+.show_item{width: 215px; height: 345px; margin: 0 5px 10px 5px; border-radius: 4px; display: block; text-align: left; background-color: #fff;}
+.show_item_img{width: 215px; height: 215px; border-radius: 4px 4px 0 0; overflow: hidden;}
+.show_item_info{width: 175px; height: 40px; margin: 15px 20px 0 20px; overflow: hidden;}
+.show_item_money{width: 175px; height: 27px; margin: 0 20px; padding-top: 2px; padding-bottom: 5px; border-bottom: .5px solid #e6e6e6;}
+.show_item_user{width: 175px; height: 20px; margin: 10px 20px 10px 20px; border-radius: 0 0 4px 4px;}
+.show_item_user_img{width: 20px; height: 20px; margin-right: 10px; display: block;}
+.show_item_user_name{width: 80px; height: 20px; display: block;}
+
+.show_item_info span.info{font-size: 14px; line-height: 20px; color: #000;}
+.show_item_money span.money{font-size: 19px; line-height: 27px; color: #ff0000;}
+.show_item_user span.name{font-size: 14px; line-height: 20px; color: #000;}
+/*单个商品循环样式结束*/

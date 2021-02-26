@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎加入我们</title>
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}" rel="stylesheet">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/signin.css}" rel="stylesheet">
+    <style>p{text-align: left;margin: 0;}</style>
+</head>
+<body style="text-align: center!important;">
+<form id="form" class="form-signin" th:action="@{/user/register}" method="post" onsubmit="return encrypt()">
+    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72" src="">
+    <h1 class="h3 mb-3 font-weight-normal" th:text="加入我们"></h1>
+    <label class="sr-only" for="username" th:text="用户名"></label>
+    <input type="text" class="form-control" id="username" name="username" th:placeholder="用户名" onblur="ajaxCheck()" required autofocus>
+    <p id="msg_name" style="color: red;"></p>
+    <div style="margin-bottom: 10px!important;"></div>
+    <label class="sr-only" for="password" th:text="密码"></label>
+    <input type="password" style="margin-bottom: 0!important;" class="form-control" id="password" name="password" th:placeholder="密码" required>
+    <p id="msg_pwd" style="color: red;"></p>
+    <label class="sr-only" for="rePassword" th:text="确认密码"></label>
+    <input type="password" class="form-control" id="rePassword" name="password" th:placeholder="确认密码" required>
+    <input type="password" id="pwd" name="pwd" hidden>
+    <p style="margin-bottom: 16px!important; text-align: right;">已有账号？<a th:href="@{/user/login}">去登录</a></p>
+    <button id="btn" class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+    <p class="mt-5 mb-3 text-muted">© 2019-2021</p>
+</form>
+
+<script th:src="@{https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.min.js}"></script>
+<script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+<script>
+    if ([[${session.user!=null}]]){
+        window.location.href="/goods/all/recent/1";
+    }
+
+    let msg_name, msg_pwd, username, password, rePassword, pwd;
+    msg_name = $("#msg_name");
+    msg_pwd = $("#msg_pwd");
+    username = $("#username");
+    password = $("#password");
+    rePassword = $("#rePassword");
+    pwd = $("#pwd");
+
+    function ajaxCheck(){
+        if (username.val()==='' || username.val()===undefined || username.val()===null){
+            msg_name.html("请输入用户名！");
+        }else {
+            $.ajax({
+                url: "/user/ajaxCheckUsername",
+                data: {"username":username.val()},
+                type: "post",
+                success:function (data){
+                    if (data.toString()==='ok'){
+                        msg_name.css("color","green");
+                        msg_name.html("用户名可用 √");
+                    }else {
+                        msg_name.css("color","red");
+                        msg_name.html("用户名已存在 ×");
+                    }
+                }
+            })
+        }
+    }
+    function encrypt(){
+        if (password.val()==='' || password.val()===undefined || password.val()===null){
+            msg_pwd.html("请输入密码！");
+            return false;
+        }
+        if (password.val()!==rePassword.val()){
+            msg_pwd.html("请重新确认密码！");
+            return false;
+        }
+        pwd.val(md5(username.val()+password.val()));
+        return true
+    }
+</script>
+</body>
+</html>

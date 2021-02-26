@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>"进错门"二手交易平台</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/show-all.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--top-->
+<div th:replace="~{common/common::top}"></div>
+
+<!--head-->
+<div class="head-show-all">
+    <div class="head-show-all_body">
+        <div class="head-show-all_top">
+            <div class="head-show-all_top_left"><span class="left">二手交易平台</span></div>
+            <div class="head-show-all_top_right">
+                <div class="head-show-all_top_right_item fl">
+                    <a th:href="@{/goods/all/recent/1}"><span class="right1">首页</span></a>
+                </div>
+                <div class="head-show-all_top_right_item fl">
+                    <a th:href="@{/goods/me-goods/1}"><span class="right2">我的商品</span></a>
+                </div>
+                <div class="head-show-all_top_right_item fl">
+                    <a th:href="@{/goods/add}"><span class="right2">发布商品</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="head-show-all_img1"><img th:src="@{/images/welcome1.png}" width="170"></div>
+        <div class="head-show-all_img2"><img th:src="@{/images/welcome2.png}" width="170"></div>
+        <div class="head-show-all_img3"><img th:src="@{/images/welcome3.png}" width="176"></div>
+
+        <div class="search" style="position: absolute; top: 70px; right: 0;">
+            <form action="" method="post">
+                <input class="search-input fl" name="goodsName">
+                <input type="submit" value="搜索" class="search-button fr">
+            </form>
+        </div>
+
+        <div class="usercard">
+            <div th:if="${session.user != null}">
+                <div class="usercard-info">
+                    <div class="usercard-info-left">
+                        <img style="width: 60px; height: 60px; border-radius:50%;" th:src="@{'/upload/userHeadImg/'+${session.user.userDetail.headImg}}">
+                    </div>
+                    <div class="usercard-info-right">
+                        <p><span class="right1"><b>[[${session.user.userDetail.nickname}]]</b></span></p>
+                        <p><span class="right2">已经来到这里&nbsp;[[${session.allRegDays}]]&nbsp;天啦！(ง •_•)ง</span></p>
+                    </div>
+                </div>
+                <div class="usercard-list">
+                    <div class="usercard-list-item fl" onclick="window.open('/TradingPlatform/goods/me-goods/1','_self')">
+                        <div class="usercard-list-item-img"><img th:src="@{/images/info/1.png}" width="26"></div>
+                        <div class="usercard-list-item-name"><span class="name">出售中</span></div>
+                        <div class="usercard-list-item-num">
+                            <span class="num">[[${session.user.userDetail.sellingCount}]]</span>
+                        </div>
+                    </div>
+                    <div class="usercard-list-item fl" onclick="window.open('/TradingPlatform/goods/me-goods/1','_self')">
+                        <div class="usercard-list-item-img"><img th:src="@{/images/info/2.png}" width="26"></div>
+                        <div class="usercard-list-item-name"><span class="name">已卖出</span></div>
+                        <div class="usercard-list-item-num">
+                            <span class="num">[[${session.user.userDetail.soldCount}]]</span>
+                        </div>
+                    </div>
+                    <div class="usercard-list-item fl" onclick="window.open('/TradingPlatform/findOrder','_self')">
+                        <div class="usercard-list-item-img"><img th:src="@{/images/info/3.png}" width="26"></div>
+                        <div class="usercard-list-item-name"><span class="name">已买入</span></div>
+                        <div class="usercard-list-item-num">
+                            <span class="num">[[${session.user.userDetail.buyCount}]]</span>
+                        </div>
+                    </div>
+                    <div class="usercard-list-item fl" onclick="window.open('/TradingPlatform/goods/me-collection/1','_self')">
+                        <div class="usercard-list-item-img"><img th:src="@{/images/info/4.png}" width="26"></div>
+                        <div class="usercard-list-item-name"><span class="name">我的收藏</span></div>
+                        <div class="usercard-list-item-num">
+                            <span class="num">[[${session.user.userDetail.collectCount}]]</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div th:unless="${session.user != null}">
+                <div class="usercard-info" style="padding-top: 30px;">
+                    <img style="border-radius:50%; width: 60px; height: 60px; border: 1px solid #000;" th:src="@{/images/info/headImg.jpg}">
+                </div>
+                <div class="usercard-list" style="padding: 35px 5px 15px 5px;">
+                    <a th:href="@{/user/login}"><button class="button" style="width: 88px; height: 25px; background-color: #ffd84d;">登录</button></a>
+                    <br/><br/>
+                    <a th:href="@{/user/register}">立即注册</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--导航栏-->
+<div class="navi">
+    <div id="navi-recent" class="navi-item fl">
+        <a th:href="@{/goods/all/recent/1}"><span id="navi-recent-span" class="name">最近</span></a>
+    </div>
+    <div id="navi-phone" class="navi-item fl">
+        <a th:href="@{/goods/all/phone/1}"><span id="navi-phone-span" class="name">手机</span></a>
+    </div>
+    <div id="navi-digital" class="navi-item fl">
+        <a th:href="@{/goods/all/digital/1}"><span id="navi-digital-span" class="name">数码</span></a>
+    </div>
+    <div id="navi-ACG" class="navi-item fl">
+        <a th:href="@{/goods/all/ACG/1}"><span id="navi-ACG-span" class="name">ACG</span></a>
+    </div>
+    <div id="navi-clothes" class="navi-item fl">
+        <a th:href="@{/goods/all/clothes/1}"><span id="navi-clothes-span" class="name">服装</span></a>
+    </div>
+    <div id="navi-house" class="navi-item fl">
+        <a th:href="@{/goods/all/house/1}"><span id="navi-house-span" class="name">租房</span></a>
+    </div>
+    <div id="navi-makeup" class="navi-item fl">
+        <a th:href="@{/goods/all/makeup/1}"><span id="navi-makeup-span" class="name">美妆</span></a>
+    </div>
+    <div id="navi-sport" class="navi-item fl">
+        <a th:href="@{/goods/all/sport/1}"><span id="navi-sport-span" class="name">运动</span></a>
+    </div>
+    <div id="navi-game" class="navi-item fl">
+        <a th:href="@{/goods/all/game/1}"><span id="navi-game-span" class="name">游戏</span></a>
+    </div>
+    <div id="navi-instrument" class="navi-item fl">
+        <a th:href="@{/goods/all/instrument/1}"><span id="navi-instrument-span" class="name">乐器</span></a>
+    </div>
+    <div id="navi-other" class="navi-item fl">
+        <a th:href="@{/goods/all/other/1}"><span id="navi-other-span" class="name">其它</span></a>
+    </div>
+</div>
+
+<!--商品展示-->
+<div class="show_all">
+    <div th:each="goodsItem:${goodsList}">
+        <div class="show_item fl">
+            <div class="show_item_img">
+                <a th:href="@{'/goods/single/'+${goodsItem.goodsId}}">
+                    <img width="215" th:src="@{'/upload/goodsImg/'+${goodsItem.goodsImg}+'/1.jpg'}" th:alt="${goodsItem.getGoodsName()}"/>
+                </a>
+            </div>
+            <div class="show_item_info">
+                <p>
+                    <a th:href="@{'/goods/single/'+${goodsItem.goodsId}}">
+                        <span class="info" th:text="${goodsItem.getGoodsName()}"></span>
+                    </a>
+                </p>
+            </div>
+            <div class="show_item_money">
+                <p>
+                    <span class="money" th:text="${'￥'+goodsItem.getNewPrice()}"></span>
+                </p>
+            </div>
+            <div class="show_item_user">
+                <div class="show_item_user_img fl">
+                    <img style="width: 20px; height: 20px; border-radius:50%;" th:src="@{'/upload/userHeadImg/'+${goodsItem.userDetail.headImg}}">
+                </div>
+                <div class="show_item_user_name fl">
+                    <span class="name" th:text="${goodsItem.getUserDetail().getNickname()}"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--页码，虽然idea报错，但是没事儿-->
+<div class="page" th:if="${totalPages>=1}">
+    <!-- 页数较少时填充 -->
+    <div th:if="${totalPages<8}" th:each="i:${#numbers.sequence(1, (9-totalPages)/2)}" class="page-item fl bg-color-f2f2f2"></div>
+    <!--上一页-->
+    <div class="page-item fl bg-color-f2f2f2">
+        <a th:href="@{'/goods/all/'+${sort}+'/'+${pageNum-1}}"><img alt="上一页" th:src="@{/images/prevPage.png}"></a>
+    </div>
+    <!--首页-->
+    <div class="page-item fl" th:style="(${pageNum==1} ? 'background-color:#ffd84d')">
+        <a th:href="@{'/goods/all/'+${sort}+'/1'}">1</a>
+    </div>
+    <!--页数过多时的省略号-->
+    <div class="page-item fl" th:style="(${pageNum == totalPages} ? 'page-item fl bg-color-ffd84d')" th:if="${totalPages > 9 && pageNum > 5}">
+        <img alt="省略" th:src="@{/images/ellipsis.png}"/>
+    </div>
+    <!--中间部分的页面显示-->
+    <div th:if="${totalPages<=9 && totalPages>=3}" th:each="i:${#numbers.sequence(2, totalPages-1)}"
+         class="page-item fl" th:style="(${i==pageNum} ? 'background-color:#ffd84d')">
+        <a th:href="@{'/goods/all/'+${sort}+'/'+${i}}" th:text="${i}"></a>
+    </div>
+    <div th:if="${totalPages > 9}">
+        <div th:if="${pageNum <= 5}" th:each="i:${#numbers.sequence(2, 7)}"
+             class="page-item fl" th:style="(${i==pageNum} ? 'background-color:#ffd84d')">
+            <a th:href="@{'/goods/all/'+${sort}+'/'+${i}}" th:text="${i}"></a>
+        </div>
+        <div th:if="${pageNum >= 'totalPages-4'}" th:each="i:${#numbers.sequence('totalPages-6', 'totalPages-1')}"
+             class="page-item fl" th:style="(${i==pageNum} ? 'background-color:#ffd84d')">
+            <a th:href="@{'/goods/all/'+${sort}+'/'+${i}}" th:text="${i}"></a>
+        </div>
+        <div th:if="${pageNum>5 && pageNum < 'totalPages-4'}" th:each="i:${#numbers.sequence('totalPages-6', 'totalPages-1')}"
+             class="page-item fl" th:style="(${i==pageNum} ? 'background-color:#ffd84d')">
+            <a th:href="@{'/goods/all/'+${sort}+'/'+${i}}" th:text="${i}"></a>
+        </div>
+    </div>
+    <!--页数过多时的省略号-->
+    <div th:if="${totalPages > 9 && pageNum < 'totalPages-4'}"
+         class="page-item fl" th:style="(${pageNum==totalPages} ? 'background-color:#ffd84d')">
+        <img alt="省略" th:src="@{/images/ellipsis.png}"/>
+    </div>
+    <!--尾页-->
+    <div th:if="${totalPages > 1}">
+        <div class="page-item fl" th:style="(${pageNum==totalPages} ? 'background-color:#ffd84d')">
+            <a th:href="@{'/goods/all/'+${sort}+'/'+${totalPages}}" th:text="${totalPages}"></a>
+        </div>
+    </div>
+
+    <!--下一页-->
+    <div class="page-item fl bg-color-f2f2f2">
+        <a th:href="@{'/goods/all/'+${sort}+'/'+${pageNum+1}}"><img alt="下一页" th:src="@{/images/nextPage.png}"/></a>
+    </div>
+    <!-- 页数较少时填充 -->
+    <div th:if="${totalPages<9}" th:each="i:${#numbers.sequence(1, (9-totalPages)/2)}" class="page-item fl bg-color-f2f2f2"></div>
+</div>
+
+<!--footer-->
+<div th:replace="~{common/common::footer}"></div>
+
+<script>
+    window.onload = function () {
+        let navi_item, navi_item_span, navi_item_line;
+
+        navi_item = document.getElementById("navi-"+"[[${sort}]]");
+        navi_item.className = "navi-item-i fl";
+
+        navi_item_span = document.getElementById("navi-"+"[[${sort}]]"+"-span");
+        navi_item_span.className="name-i";
+
+        navi_item_line = document.createElement("div");
+        navi_item_line.className = "navi-item-line";
+        navi_item.appendChild(navi_item_line)
+    }
+</script>
+</body>
+</html>

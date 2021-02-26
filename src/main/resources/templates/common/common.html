@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--头部-->
+<div class="top" th:fragment="top">
+    <div class="top_body">
+        <div class="top_left fl">欢迎光临“进错门”二手交易平台！</div>
+        <div class="top_right fl">
+            <div th:if="${session.user==null}">
+                <div class="top_right_item fr">
+                    <a th:href="@{/user/register}"><span class="red">[注册]</span></a>
+                </div>
+                <div class="top_right_item fr">
+                    <a th:href="@{/user/login}"><span class="blue">[登录]</span></a>
+                </div>
+            </div>
+            <div th:if="${session.user!=null}">
+                <div class="top_right_item fr">
+                    <a th:href="@{/user/logout}"><span>注销</span></a>
+                </div>
+                <div class="top_right_item fr" style="padding: 10px 0 6px 0;margin: 0;">
+                    <a th:href="@{/user/userLoginOut}"><img th:src="@{/images/top/logout.png}" width="15"></a>
+                </div>
+                <div class="top_right_item fr">|</div>
+                <div class="top_right_item fr">
+                    <a th:href="@{/goods/me-order/1}"><span>我的订单</span></a>
+                </div>
+                <div class="top_right_item fr" style="margin: 0;">
+                    <a th:href="@{/goods/me-order/1}"><img th:src="@{/images/top/order.png}" width="16"></a>
+                </div>
+                <div class="top_right_item fr">|</div>
+                <div class="top_right_item fr">
+                    <a th:href="@{/goods/me-collection/1}"><span>我的收藏</span></a>
+                </div>
+                <div class="top_right_item fr" style="padding: 9px 0 7px 0;margin: 0;">
+                    <a th:href="@{/goods/me-collection/1}"><img th:src="@{/images/top/collection.png}" width="15"></a>
+                </div>
+                <div class="top_right_item fr">|</div>
+                <div class="top_right_item fr">
+                    <a th:href="@{/goods/me-goods/1}"><span>我的商品</span></a>
+                </div>
+                <div class="top_right_item fr" style="margin: 0;">
+                    <a th:href="@{/goods/me-goods/1}"><img th:src="@{/images/top/goods.png}" width="16"></a>
+                </div>
+                <div class="top_right_item fr">|</div>
+                <div class="top_right_item fr">
+                    <a th:href="@{'/user/userInfo/'+${session.user.userId}}"><span>个人信息</span></a>
+                </div>
+                <div class="top_right_item fr" style="padding: 9px 0 7px 0;margin: 0;">
+                    <a th:href="@{/user/userInfo}"><img th:src="@{/images/top/user.png}" width="15"></a>
+                </div>
+                <div class="top_right_item fr">|</div>
+                <div class="top_right_item fr" style="margin-right: 10px;">
+                    欢迎你：
+                    <span class="red">[[${session.user.userDetail.nickname}]]</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--用户信息界面的头部-->
+<div class="head-show-single" th:fragment="head-me">
+    <div class="head-show-single-body">
+        <div class="head-show-single-left fl">
+            <span class="left">我的信息</span>
+        </div>
+        <div class="head-show-single-right fl">
+            <div class="head-show-single-right-item fl">
+                <a th:href="@{/goods/all/recent/1}">
+                    <img th:src="@{/images/home.png" width="16">
+                    <span class="right">首页</span></a>
+            </div>
+            <div class="head-show-single-right-jianGe fl">
+                <span class="right">|</span>
+            </div>
+            <div class="head-show-single-right-item fl">
+                <a th:href="@{'/user/userInfo/'+${session.user.userId}}"><span class="right">个人信息</span></a>
+            </div>
+            <div class="head-show-single-right-jianGe fl">
+                <span class="right">|</span>
+            </div>
+            <div class="head-show-single-right-item fl">
+                <a th:href="@{/goods/me-goods/1}"><span class="right">我的商品</span></a>
+            </div>
+            <div class="head-show-single-right-jianGe fl">
+                <span class="right">|</span>
+            </div>
+            <div class="head-show-single-right-item fl">
+                <a th:href="@{/goods/me-collection/1}"><span class="right">我的收藏</span></a>
+            </div>
+            <div class="head-show-single-right-jianGe fl">
+                <span class="right">|</span>
+            </div>
+            <div class="head-show-single-right-item fl">
+                <a th:href="@{/goods/me-order/1}"><span class="right">我的订单</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--尾部-->
+<footer class="foot" th:fragment="footer">
+    <span class="foot">
+        2021 &copy; “进错门”二手交易平台&nbsp;&nbsp;[shiyq]&nbsp;&nbsp;email：im.shiyq@qq.com
+    </span>
+</footer>
+</html>
