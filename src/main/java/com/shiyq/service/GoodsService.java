@@ -5,8 +5,11 @@ import com.shiyq.pojo.Goods;
 import com.shiyq.pojo.GoodsCollection;
 import com.shiyq.pojo.GoodsGuestbook;
 import com.shiyq.pojo.UserOrder;
+import com.shiyq.util.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -58,8 +61,8 @@ public class GoodsService {
      * 保存商品
      * @param goods 商品对象
      */
-    public void saveGoods(Goods goods, CommonsMultipartFile[] files, HttpServletRequest request) {
-        goods.setGoodsImg(uploadGoodsImg(files, request));
+    public void saveGoods(Goods goods, MultipartFile[] files) {
+        goods.setGoodsImg(UploadFile.uploadFiles(files));
         goodsMapper.saveGoods(goods);
     }
 
@@ -127,11 +130,13 @@ public class GoodsService {
      * @param files 文件数组
      * @param request   请求
      */
-    private String uploadGoodsImg(CommonsMultipartFile[] files, HttpServletRequest request) {
+    private String uploadGoodsImg(MultipartFile[] files, HttpServletRequest request) {
 
         //上传路径保存设置，为文件再创建一级目录防止重名
         String uuidPath = UUID.randomUUID().toString();
-        String path = request.getServletContext().getRealPath("/static/upload/goodsImg") + "\\" + uuidPath;
+        String path = "\\upload\\goodsImg" + "\\" + uuidPath;
+//        String path = request.getServletContext().getRealPath("/upload/goodsImg") + "\\" + uuidPath;
+
         //如果路径不存在，创建一个
         File realPath = new File(path);
         if (!realPath.exists()){
@@ -140,33 +145,16 @@ public class GoodsService {
 
         // 重命名图片名。从1开始
         int i = 1;
-        for (CommonsMultipartFile file : files){
+        for (MultipartFile file : files){
             //获取文件名 : file.getOriginalFilename(); 获取文件后缀：FilenameUtils.getExtension()
             //String uploadFileName = i++ + "." + FilenameUtils.getExtension(file.getOriginalFilename());
             String uploadFileName = i++ + ".jpg";
 
-            InputStream is = null;
-            OutputStream os = null;
-            try {
-                is = file.getInputStream(); //文件输入流
-                os = new FileOutputStream(new File(realPath,uploadFileName)); //文件输出流
-
-                //读取写出
-                int len;
-                byte[] buffer = new byte[1024];
-                while ((len=is.read(buffer))!=-1){
-                    os.write(buffer,0,len);
-                    os.flush();
-                }
-            } catch (IOException e) {
+            try{
+                //通过CommonsMultipartFile的方法直接写文件
+                file.transferTo(new File(path + "\\" + uploadFileName));
+            } catch (IOException e){
                 e.printStackTrace();
-            } finally {
-                try{
-                    if (os!=null) os.close();
-                    if (is!=null) is.close();
-                } catch (IOException e){
-                    e.printStackTrace();
-                }
             }
         }
 

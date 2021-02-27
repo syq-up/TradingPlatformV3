@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -110,14 +108,14 @@ public class GoodsController {
      * @return  返回此添加商品页面
      */
 //    @PreAuthorize("hasRole('user')")
-    @RequestMapping("/save")
+    @PostMapping("/save")
     public String saveGoods(@ModelAttribute Goods goods,
-                            @RequestParam("files") CommonsMultipartFile[] files,
+                            @RequestParam("files") MultipartFile[] files,
                             HttpServletRequest request,
                             Model model)
             throws IOException {
-        goods.setLastEditTime(new java.sql.Timestamp(new Date().getTime()));
-        goodsService.saveGoods(goods, files, request);
+        //goods.setLastEditTime(new java.sql.Timestamp(new Date().getTime()));
+        goodsService.saveGoods(goods, files);
         model.addAttribute("goods", goods);
         return "show-single-goods";
     }

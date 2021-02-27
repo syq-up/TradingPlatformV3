@@ -108,10 +108,9 @@ public class UserController {
     @RequestMapping("/userUpdate")
     public String updateUserInfo(@ModelAttribute UserDetail userDetail,
                                  @RequestParam("file") CommonsMultipartFile file,
-                                 HttpSession session,
-                                 HttpServletRequest request){
+                                 HttpSession session){
         // 更新数据库
-        userService.updateUserDetail(userDetail, file, request);
+        userService.updateUserDetail(userDetail, file);
         // 更新session中的user对象
         User user = (User) session.getAttribute("user");
         user.setUserDetail(userService.findUserDetailById(userDetail.getDetailId()));

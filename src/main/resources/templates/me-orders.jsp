@@ -5,8 +5,8 @@
 <head>
 	<title>我的订单</title>
 	<base href="/TradingPlatform/" />
-	<link href="css/common.css" rel="stylesheet" type="text/css" />
-	<link href="css/me.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{css/common.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{css/me.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -40,7 +40,7 @@
 					</div>
 					<div class="content-item-head-delete fl">
 						<a href="/TradingPlatform/goods/me-order/delete/${orderItem.orderId}/${pageNum}">
-							<img width="18px" src="images/delete.png">
+							<img width="18px" th:src="@{/images/delete.png">
 						</a>
 					</div>
 				</div>
@@ -48,7 +48,7 @@
 					<div class="content-item-body-item1 fl">
 						<div class="content-item-body-item1-img fl" style="overflow: hidden;">
 							<a href="/TradingPlatform/goods/single/${orderItem.goods.goodsId}">
-								<img width="80" src="upload/goodsImg/${orderItem.goods.goodsImg}/1.jpg">
+								<img width="80" th:src="@{/upload/goodsImg/${orderItem.goods.goodsImg}/1.jpg">
 							</a>
 						</div>
 						<div class="content-item-body-item1-goodsname fl">
@@ -89,7 +89,7 @@
 				</c:if>
 				<%-- 上一页 --%>
 				<div class="page-item fl bg-color-fff">
-					<a href="/TradingPlatform/goods/me-order/${pageNum-1}"><img alt="上一页" src="images/prevPage.png"></a>
+					<a href="/TradingPlatform/goods/me-order/${pageNum-1}"><img alt="上一页" th:src="@{/images/prevPage.png"></a>
 				</div>
 				<%-- 首页 --%>
 				<div class="page-item fl <c:if test="${pageNum==1}">bg-color-ffd84d</c:if>" style="background-color: #f2f2f2">
@@ -98,7 +98,7 @@
 				<%-- 页数过多时的省略号 --%>
 				<c:if test="${totalPages > 9 && pageNum > 5}">
 					<div class="page-item fl <c:if test="${pageNum == totalPages}">bg-color-ffd84d</c:if>" style="background-color: #f2f2f2">
-						<img alt="省略" src="images/ellipsis.png"/>
+						<img alt="省略" th:src="@{/images/ellipsis.png"/>
 					</div>
 				</c:if>
 				<%-- 中间部分的页面显示 --%>
@@ -139,7 +139,7 @@
 				<%-- 页数过多时的省略号 --%>
 				<c:if test="${totalPages > 9 && pageNum < (totalPages-4)}">
 					<div class="page-item fl <c:if test="${pageNum == totalPages}">bg-color-ffd84d</c:if>" style="background-color: #f2f2f2">
-						<img alt="省略" src="images/ellipsis.png"/>
+						<img alt="省略" th:src="@{/images/ellipsis.png"/>
 					</div>
 				</c:if>
 				<%-- 尾页 --%>
@@ -150,7 +150,7 @@
 				</c:if>
 				<%-- 下一页 --%>
 				<div class="page-item fl bg-color-fff">
-					<a href="/TradingPlatform/goods/me-order/${pageNum+1}"><img alt="下一页" src="images/nextPage.png"/></a>
+					<a href="/TradingPlatform/goods/me-order/${pageNum+1}"><img alt="下一页" th:src="@{/images/nextPage.png"/></a>
 				</div>
 				<%-- 页数较少时填充 --%>
 				<c:if test="${totalPages < 9}">

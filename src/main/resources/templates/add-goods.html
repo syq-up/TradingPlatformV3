@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>发布商品</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/show-single.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/me.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--top-->
+<div th:replace="~{common/common::top}"></div>
+
+<!--head-->
+<div th:replace="~{common/common::head-goods}"></div>
+
+<!--主体-->
+<div class="info">
+    <div class="info-left fl">
+        <img class="info-left-img" th:src="@{'/upload/userHeadImg/'+${session.user.userDetail.headImg}}">
+    </div>
+    <div class="info-right fl">
+        <div class="info-right-top">发布商品</div>
+
+        <form th:action="@{/goods/save}" enctype="multipart/form-data" method="post" >
+            <div class="info-right-key">编辑商品信息</div>
+
+            <div class="info-right-value" style="padding-top: 2px;height: 450px;">
+<!--                <input name="goodsId" value="${goods.goodsId}" th:if="${goods!=null}" hidden>-->
+
+                <input name="userDetail.detailId" th:value="${session.user.userDetail.detailId}" hidden>
+                <input name="userDetail.nickname" th:value="${session.user.userDetail.nickname}" hidden>
+                <input name="userDetail.phone" th:value="${session.user.userDetail.phone}" hidden>
+                <input name="userDetail.headImg" th:value="${session.user.userDetail.headImg}" hidden>
+                <input name="userDetail.curAddr.province" th:value="${session.user.userDetail.curAddr.province}" hidden>
+                <input name="userDetail.curAddr.city" th:value="${session.user.userDetail.curAddr.city}" hidden>
+
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">图片：</div>
+                    <div class="info-right-value-item-value fl">
+                        <input type="file" name="files" accept="image/png, image/jpeg, image/gif" multiple required>
+<!--                        <input name="goodsImg" value="${goods.goodsImg}" hidden>-->
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">商品名称：</div>
+                    <div class="info-right-value-item-value fl">
+                        <input type="text" style="width: 474px;" name="goodsName" maxlength="35" required>
+<!--                        <input type="text" style="width: 474px;" name="goodsName" value="${goods.goodsName}" maxlength="35" required>-->
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">转卖价：</div>
+                    <div class="info-right-value-item-value fl">
+                        ￥<input type="text" name="newPrice" pattern="^[0-9]+([.]{1}[0-9]+){0,1}$" maxlength="13" required>
+<!--                        ￥<input type="text" name="newPrice" value="${goods.newPrice}" pattern="^[0-9]+([.]{1}[0-9]+){0,1}$" maxlength="13" required>-->
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">原价：</div>
+                    <div class="info-right-value-item-value fl">
+                        ￥<input type="text" name="oldPrice" pattern="^[0-9]+([.]{1}[0-9]+){0,1}$" maxlength="13">
+<!--                        ￥<input type="text" name="oldPrice" value="<c:if test="${goods!=null}">${goods.oldPrice}</c:if>" pattern="^[0-9]+([.]{1}[0-9]+){0,1}$" maxlength="13">-->
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">成色：</div>
+                    <div class="info-right-value-item-value fl">
+                        <input type="text" style="width: 474px;" name="quality" maxlength="22">
+<!--                        <input type="text" style="width: 474px;" name="quality" value="${goods.quality}" maxlength="22">-->
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">交易方式：</div>
+                    <div class="info-right-value-item-value fl">
+                        <input style="width: 30px; height: 15px;" type="radio" name="tradeWay" value="在线交易" checked>在线交易
+                        <input style="width: 30px; height: 15px;" type="radio" name="tradeWay" value="线下交易">线下交易
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">分类：</div>
+                    <div class="info-right-value-item-value fl">
+                        <select style="width: 110px; height: 30px;" name="sort">
+                            <option value="phone">1手机</option>
+                            <option value="digital">2数码</option>
+                            <option value="anime">3ACG</option>
+                            <option value="clothes">4服装</option>
+                            <option value="house">5租房</option>
+                            <option value="cosmetics">6美妆</option>
+                            <option value="sport">7运动</option>
+                            <option value="game">8游戏</option>
+                            <option value="instrument">9乐器</option>
+                            <option value="other">0其它</option>
+                        </select>
+                        要选对哦！
+                    </div>
+                </div>
+                <div class="info-right-value-item">
+                    <div class="info-right-value-item-key fl">详情：</div>
+                    <div class="info-right-value-item-value fl">
+                        <textarea rows="10" cols="65" name="goodsDetail"></textarea>
+<!--                        <textarea rows="10" cols="65" name="goodsDetail" value="${goods.goodsDetail}"></textarea>-->
+                        <span style="line-height: 12px;"><br/>*请注意信息格式</span>
+                    </div>
+                </div>
+                <input name="state" value="1" hidden>
+            </div>
+
+            <input type="submit" class="button button-modify" value="确定">
+        </form>
+    </div>
+</div>
+
+<!--footer-->
+<div th:replace="~{common/common::footer}"></div>
+
+</body>
+</html>

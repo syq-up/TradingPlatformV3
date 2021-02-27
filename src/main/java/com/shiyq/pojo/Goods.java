@@ -13,7 +13,7 @@ public class Goods {
     private String tradeWay;
     private String goodsDetail;
     private String sort;
-    private Date lastEditTime;
+    private Date lastEditTime = new Date();
     private int State;
 
     public Goods() {

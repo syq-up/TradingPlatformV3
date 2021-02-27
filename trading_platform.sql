@@ -171,20 +171,13 @@ CREATE TABLE `user_detail` (
   PRIMARY KEY (`detail_id`),
   KEY `fk_detail_addr` (`cur_addr`),
   CONSTRAINT `fk_detail_addr` FOREIGN KEY (`cur_addr`) REFERENCES `user_addr` (`addr_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 /*Data for the table `user_detail` */
 
 insert  into `user_detail`(`detail_id`,`nickname`,`real_name`,`sex`,`birthday`,`phone`,`email`,`head_img`,`cur_addr`,`selling_count`,`sold_count`,`collect_count`,`buy_count`) values 
 (1,'sss昵称','','保密','2000-01-01','',NULL,'user-default-headImage.jpg',1,0,0,0,0),
-(2,'ss昵称',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(3,'a',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(4,'s',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(5,' ',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(6,'  ',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(7,'s',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(8,'s',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0),
-(9,'s',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0);
+(2,'ss昵称',NULL,'保密','2000-01-01',NULL,NULL,'user-default-headImage.jpg',NULL,0,0,0,0);
 
 /*Table structure for table `user_order` */
 

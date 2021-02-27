@@ -5,8 +5,8 @@
 <head>
 	<title>个人信息</title>
 	<base href="/TradingPlatform/" />
-	<link href="css/common.css" rel="stylesheet" type="text/css" />
-	<link href="css/me.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{css/common.css" rel="stylesheet" type="text/css" />
+	<link th:href="@{css/me.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
@@ -15,7 +15,7 @@
 
 	<div class="info">
 		<div class="info-left fl">
-			<img class="info-left-img" src="upload/userHeadImg/${sessionScope.user.userDetail.headImg}">
+			<img class="info-left-img" th:src="@{/upload/userHeadImg/${sessionScope.user.userDetail.headImg}">
 		</div>
 		<div class="info-right fl">
 			<div class="info-right-top">个人资料</div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>"进错门"二手交易平台</title>
@@ -11,35 +11,9 @@
 <div th:replace="~{common/common::top}"></div>
 
 <!--head-->
-<div class="head-show-single">
-    <div class="head-show-single-body">
-        <div class="head-show-single-left fl">
-            <span class="left">二手交易平台</span>
-        </div>
-        <div class="head-show-single-right fl">
-            <div class="head-show-single-right-item fl">
-                <a th:href="@{/goods/all/recent/1}"><span class="right">首页</span></a>
-            </div>
-            <div class="head-show-single-right-jianGe fl">
-                <span class="right">|</span>
-            </div>
-            <div class="head-show-single-right-item fl">
-                <a th:href="@{/goods/me-goods/1}"><span class="right">我的商品</span></a>
-            </div>
-            <div class="head-show-single-right-item fl">
-                <a th:href="@{/goods/add}"><span class="right">发布商品</span></a>
-            </div>
-        </div>
-        <div class="search fr" style="margin: 27px 0;">
-            <form action="" method="post">
-                <input class="search-input fl" name="goodsName">
-                <input type="submit" value="搜索" class="search-button fr">
-            </form>
-        </div>
-    </div>
-</div>
+<div th:replace="~{common/common::head-goods}"></div>
 
-<!--视频详情-->
+<!--商品详情-->
 <div class="goods-detail">
     <div class="goods-detail-top">
         <div class="goods-detail-top-left fl">

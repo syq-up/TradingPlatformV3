@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>登录</title>
@@ -11,7 +11,7 @@
 
 <body class="text-center">
 <form id="form" class="form-signin" th:action="@{/user/login}" method="post" onsubmit="return encrypt()">
-    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72" src="">
+    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal" th:text="请登录"></h1>
     <p style="color: red;text-align: left;margin: 0;" th:text="${msg}"></p>
     <label class="sr-only" for="username" th:text="用户名"></label>

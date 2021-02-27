@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.shiyq.mapper.UserMapper">
-    <resultMap id="user_uDetail" type="User">
+    <resultMap id="userMap" type="User">
         <result property="userId" column="user_id"/>
         <result property="userName" column="user_name"/>
         <result property="userPwd" column="user_pwd"/>
@@ -11,12 +11,11 @@
                      javaType="UserDetail" select="findUserDetailById"/>
     </resultMap>
 
-    <select id="findUserByUserName" resultMap="user_uDetail">
-
+    <select id="findUserByUserName" resultMap="userMap">
         select * from user where user_name=#{userName}
     </select>
 
-    <select id="findUserByUserId" resultMap="user_uDetail">
+    <select id="findUserByUserId" resultMap="userMap">
         select * from user where user_id=#{userId}
     </select>
 
@@ -29,12 +28,29 @@
         insert into user_detail(nickname) values (#{nickname})
     </insert>
 
-    <select id="findUserDetailById" resultType="UserDetail">
+    <!--TODO 这样查有点浪费了，大多时候用户登录后用不到地址信息-->
+    <resultMap id="userDetailMap" type="UserDetail">
+        <result property="detailId" column="detail_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="realName" column="realName"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="headImg" column="head_img"/>
+        <result property="sellingCount" column="selling_count"/>
+        <result property="soldCount" column="sold_count"/>
+        <result property="collectCount" column="collect_count"/>
+        <result property="buyCount" column="buy_count"/>
+        <association property="curAddr" column="cur_addr"
+                     javaType="UserAddr" select="findUserAddrById"/>
+    </resultMap>
+    <select id="findUserDetailById" resultMap="userDetailMap">
         select * from user_detail where detail_id=#{user_detail}
     </select>
 
     <select id="findUserAddrById" resultType="UserAddr">
-        select * from user_addr where user_id=#{userId}
+        select * from user_addr where user_id=#{id}
     </select>
 
     <update id="updateUserDetailById">

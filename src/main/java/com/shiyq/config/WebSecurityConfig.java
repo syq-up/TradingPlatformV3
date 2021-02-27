@@ -68,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/favicon.ico", "/css/**", "/images/**", "/upload/**",
                         "/user/login", "/user/toLogin", "/user/ajaxCheckUsername", "/user/register",
-                        "/goods/all/**", "/goods/single/**").permitAll()
+                        "/goods/all/**").permitAll()
                 .anyRequest().hasAuthority("user")  // 其它路径都需要验证
 
                 .and()

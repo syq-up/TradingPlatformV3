@@ -4,15 +4,14 @@ import com.shiyq.mapper.UserMapper;
 import com.shiyq.pojo.User;
 import com.shiyq.pojo.UserAddr;
 import com.shiyq.pojo.UserDetail;
+import com.shiyq.util.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * @author shiyq
@@ -74,37 +73,29 @@ public class UserService {
 
     /**
      * 查询用户收货地址
-     * @param userId    用户id
+     * @param id    用户id
      * @return  返回地址集合
      */
-    public List<UserAddr> findUserAddrById(Integer userId) {
-        return userMapper.findUserAddrById(userId);
+    public List<UserAddr> findUserAddrById(Integer id) {
+        return userMapper.findUserAddrById(id);
     }
 
     /**
      * 更新用户详细信息
      * @param userDetail  用户id
      */
-    public void updateUserDetail(UserDetail userDetail, CommonsMultipartFile file, HttpServletRequest request) {
-        if (file != null){
-            //上传路径保存设置
-            String headImg = UUID.randomUUID().toString() + ".jpg";
-            String path = request.getServletContext()
-                    .getRealPath("/static/upload/userHeadImg");
-            try{
-                //通过CommonsMultipartFile的方法直接写文件（注意这个时候）
-                file.transferTo(new File(path + "\\" + headImg));
-                if (!"user-default-headImage.jpg".equals(userDetail.getHeadImg())){
-                    File prevFile = new File(path + "\\" + userDetail.getHeadImg());
-                    boolean delete = prevFile.delete();
-                }
-            } catch (IOException e){
-                e.printStackTrace();
+    public void updateUserDetail(UserDetail userDetail, CommonsMultipartFile file) {
+
+        // 更新用户头像
+        if (file != null) {
+            String headImgPath = UploadFile.uploadFile(file);
+            // 如果用户原头像为默认头像，则跳过，否则删除上一个头像
+            if (!"user-default-headImage.jpg".equals(userDetail.getHeadImg())){
+                new File(headImgPath).delete();
             }
-            userDetail.setHeadImg(headImg);
-        }else {
-            userDetail.setHeadImg("user-default-headImage.jpg");
+            userDetail.setHeadImg(headImgPath);
         }
+
         userMapper.updateUserDetailById(userDetail);
     }
 

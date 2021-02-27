@@ -10,7 +10,7 @@
             size="512"
             readOnly="true"/>
 
-    <resultMap id="goods_uDetail" type="Goods">
+    <resultMap id="goodsMap" type="Goods">
         <result property="goodsId" column="goods_id"/>
         <result property="goodsImg" column="goods_img"/>
         <result property="goodsName" column="goods_name"/>
@@ -25,7 +25,7 @@
         <association property="userDetail" column="user_detail"
                      javaType="UserDetail" select="findUserDetailById"/>
     </resultMap>
-    <select id="findAllGoodsBySort" resultMap="goods_uDetail" useCache="true">
+    <select id="findAllGoodsBySort" resultMap="goodsMap" useCache="true">
         select * from goods
         <if test="sort != null">
             where sort=#{sort}
@@ -33,11 +33,31 @@
         order by last_edit_time asc
     </select>
 
-    <select id="findUserDetailById" resultType="UserDetail">
+    <resultMap id="userDetailMap" type="UserDetail">
+        <result property="detailId" column="detail_id"/>
+        <result property="nickname" column="nickname"/>
+        <result property="realName" column="realName"/>
+        <result property="sex" column="sex"/>
+        <result property="birthday" column="birthday"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="headImg" column="head_img"/>
+        <result property="sellingCount" column="selling_count"/>
+        <result property="soldCount" column="sold_count"/>
+        <result property="collectCount" column="collect_count"/>
+        <result property="buyCount" column="buy_count"/>
+        <association property="curAddr" column="cur_addr"
+                     javaType="UserAddr" select="findUserAddrById"/>
+    </resultMap>
+    <select id="findUserDetailById" resultMap="userDetailMap">
         select * from user_detail where detail_id=#{user_detail}
     </select>
 
-    <select id="findSingleGoodsById" resultMap="goods_uDetail">
+    <select id="findUserAddrById" resultType="UserAddr">
+        select * from user_addr where user_id=#{id}
+    </select>
+
+    <select id="findSingleGoodsById" resultMap="goodsMap">
         select * from goods where goods_id=#{goodsId}
     </select>
 
