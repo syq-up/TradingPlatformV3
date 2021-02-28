@@ -8,13 +8,10 @@ import com.shiyq.pojo.UserOrder;
 import com.shiyq.util.UploadFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -86,10 +83,15 @@ public class GoodsService {
 
     /**
      * 添加收藏
-     * @param hashMap 收藏
+     * @param userId 当前用户id
+     * @param goodsId 收藏的商品id
+     * @return 0：收藏失败；1：收藏成功；2：收藏已存在
      */
-    public Integer saveCollectionByUserIdAndGoodsId(HashMap<String, Integer> hashMap) {
-        return goodsMapper.saveCollectionByUserIdAndGoodsId(hashMap);
+    public Integer saveCollectionByUserIdAndGoodsId(Integer userId, Integer goodsId) {
+        if (goodsMapper.findCollectionByUserIdAndGoodsId(userId, goodsId)==0)
+            return goodsMapper.saveCollectionByUserIdAndGoodsId(userId, goodsId);
+        else
+            return 2;
     }
 
     /**

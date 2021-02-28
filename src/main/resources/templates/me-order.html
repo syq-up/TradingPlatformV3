@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的订单</title>
+    <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/css/me.css}" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!--top-->
+<div th:replace="~{common/common::top}"></div>
+<!--head-->
+<div th:replace="~{common/common::head-me}"></div>
+
+<!--主体-->
+<div class="content">
+    <div class="content-top">
+        我的订单：
+    </div>
+
+    <div class="content-head">
+        <div class="content-head-item1 fl">商品</div>
+        <div class="content-head-item2 fl">商品操作</div>
+        <div class="content-head-item2 fl">价格</div>
+        <div class="content-head-item2 fl">交易状态</div>
+        <div class="content-head-item2 fl">交易操作</div>
+    </div>
+
+    <div th:if="${orderList == null}">
+        什么都没有呢X﹏X
+    </div>
+    <div th:unless="${orderList == null}" th:each="orderItem:${orderList}">
+        <div class="content-item">
+            <div class="content-item-head">
+                <div class="content-item-head-item fl">
+                    [[${#dates.format(orderItem.datetime, 'yyyy-MM-dd HH:mm:ss')}]]订单编号：[[${orderItem.orderId}]]
+                </div>
+                <div class="content-item-head-item fl">
+                    [[${orderItem.goods.goodsName}]]
+                </div>
+                <div class="content-item-head-delete fl">
+                    <a th:href="'/goods/me-order/delete/'+${orderItem.orderId}+'/'+${pageNum}">
+                        <img width="18px" th:src="@{/images/delete.png}">
+                    </a>
+                </div>
+            </div>
+            <div class="content-item-body">
+                <div class="content-item-body-item1 fl">
+                    <div class="content-item-body-item1-img fl" style="overflow: hidden;">
+                        <a th:href="@{'/goods/single/'+${orderItem.goods.goodsId}}">
+                            <img width="80" th:src="@{'/upload/goodsImg/'+${orderItem.goods.goodsImg}+'/1.jpg'}">
+                        </a>
+                    </div>
+                    <div class="content-item-body-item1-goodsname fl">
+                        <a th:href="@{'/goods/single/'+${orderItem.goods.goodsId}}">[[${orderItem.goods.goodsName}]]</a>
+                    </div>
+                </div>
+                <div class="content-item-body-item2 fl">
+                    <p>
+                        <a href="#">联系卖家</a>
+                    </p>
+                    <p>
+                        <a href="#">申请客服</a>
+                    </p>
+                </div>
+                <div class="content-item-body-item2 fl">
+                    ￥[[${orderItem.goods.newPrice}]]
+                </div>
+                <div class="content-item-body-item2 fl">
+                    交易成功
+                </div>
+                <div class="content-item-body-item2 fl">
+                    <a href="#">
+                        评论
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--页码，虽然idea报错，但是没事儿-->
+    <div class="page" th:if="${totalPages>=1}">
+        <!-- 页数较少时填充 -->
+        <div th:if="${totalPages<8}" th:each="i:${#numbers.sequence(1, (9-totalPages)/2)}" class="page-item fl"></div>
+        <!--上一页-->
+        <div class="page-item fl">
+            <a th:href="@{'/goods/me-order/'+${pageNum-1}}"><img alt="上一页" th:src="@{/images/prevPage.png}"></a>
+        </div>
+        <!--首页-->
+        <div class="page-item fl bg-color-f2f2f2" th:style="(${pageNum==1} ? 'background-color:#ffd84d !important;')">
+            <a th:href="@{/goods/me-order/1}">1</a>
+        </div>
+        <!--页数过多时的省略号-->
+        <div class="page-item fl" th:if="${totalPages > 9 && pageNum > 5}">
+            <img alt="省略" th:src="@{/images/ellipsis.png}"/>
+        </div>
+        <!--中间部分的页面显示-->
+        <div th:if="${totalPages<=9 && totalPages>=3}" th:each="i:${#numbers.sequence(2, totalPages-1)}"
+             class="page-item fl bg-color-f2f2f2" th:style="(${i==pageNum} ? 'background-color:#ffd84d !important;')">
+            <a th:href="@{'/goods/me-order/'+${i}}" th:text="${i}"></a>
+        </div>
+        <div th:if="${totalPages > 9}">
+            <div th:if="${pageNum <= 5}" th:each="i:${#numbers.sequence(2, 7)}"
+                 class="page-item fl bg-color-f2f2f2" th:style="(${i==pageNum} ? 'background-color:#ffd84d !important;')">
+                <a th:href="@{'/goods/me-order/'+${i}}" th:text="${i}"></a>
+            </div>
+            <div th:if="${pageNum >= (totalPages-4)}" th:each="i:${#numbers.sequence(totalPages-6, totalPages-1)}"
+                 class="page-item fl bg-color-f2f2f2" th:style="(${i==pageNum} ? 'background-color:#ffd84d !important;')">
+                <a th:href="@{'/goods/me-order/'+${i}}" th:text="${i}"></a>
+            </div>
+            <div th:if="${pageNum>5 && pageNum < (totalPages-4)}" th:each="i:${#numbers.sequence(totalPages-6, totalPages-1)}"
+                 class="page-item fl bg-color-f2f2f2" th:style="(${i==pageNum} ? 'background-color:#ffd84d !important;')">
+                <a th:href="@{'/goods/me-order/'+${i}}" th:text="${i}"></a>
+            </div>
+        </div>
+        <!--页数过多时的省略号-->
+        <div th:if="${totalPages > 9 && pageNum < (totalPages-4)}" class="page-item fl">
+            <img alt="省略" th:src="@{/images/ellipsis.png}"/>
+        </div>
+        <!--尾页-->
+        <div th:if="${totalPages > 1}">
+            <div class="page-item fl bg-color-f2f2f2" th:style="(${pageNum==totalPages} ? 'background-color:#ffd84d !important;')">
+                <a th:href="@{'/goods/me-order/'+${totalPages}}" th:text="${totalPages}"></a>
+            </div>
+        </div>
+
+        <!--下一页-->
+        <div class="page-item fl">
+            <a th:href="@{'/goods/me-order/'+${pageNum+1}}"><img alt="下一页" th:src="@{/images/nextPage.png}"/></a>
+        </div>
+        <!-- 页数较少时填充 -->
+        <div th:if="${totalPages<9}" th:each="i:${#numbers.sequence(1, (9-totalPages)/2)}" class="page-item fl"></div>
+    </div>
+</div>
+
+<!--footer-->
+<div th:replace="~{common/common::footer}"></div>
+</body>
+</html>

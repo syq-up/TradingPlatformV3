@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
  * @author shiyq
  * @create 2021-02-26 15:22
  */
-@Configuration
+//@Configuration
 public class ErrorPageConfig implements ErrorPageRegistrar {
     @Override
     public void registerErrorPages(ErrorPageRegistry registry) {
@@ -18,8 +18,11 @@ public class ErrorPageConfig implements ErrorPageRegistrar {
         ErrorPage errorPage401 = new ErrorPage(HttpStatus.UNAUTHORIZED,"/error/401");
         ErrorPage errorPage403 = new ErrorPage(HttpStatus.FORBIDDEN,"/error/403");
         ErrorPage errorPage404 = new ErrorPage(HttpStatus.NOT_FOUND,"/error/404");
+        ErrorPage errorPage405 = new ErrorPage(HttpStatus.NOT_FOUND,"/error/405");
         ErrorPage errorPage415 = new ErrorPage(HttpStatus.UNSUPPORTED_MEDIA_TYPE,"/error/415");
         ErrorPage errorPage500 = new ErrorPage(HttpStatus.INTERNAL_SERVER_ERROR,"/error/500");
-        registry.addErrorPages(errorPage400,errorPage401,errorPage403,errorPage404,errorPage415,errorPage500);
+        registry.addErrorPages(
+                errorPage400, errorPage401, errorPage403, errorPage404, errorPage405, errorPage415,
+                errorPage500);
     }
 }

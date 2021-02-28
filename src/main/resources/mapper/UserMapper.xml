@@ -20,37 +20,20 @@
     </select>
 
     <insert id="saveUser">
-        insert into user (user_name, user_pwd, user_reg)
-        values (#{userName}, #{userPwd}, #{userReg})
+        insert into user (user_name, user_pwd, user_reg, user_detail)
+        values (#{userName}, #{userPwd}, #{userReg}, #{userDetail.detailId})
     </insert>
 
-    <insert id="saveUserDetail">
+    <insert id="saveUserDetail" useGeneratedKeys="true" keyProperty="detailId">
         insert into user_detail(nickname) values (#{nickname})
     </insert>
 
-    <!--TODO 这样查有点浪费了，大多时候用户登录后用不到地址信息-->
-    <resultMap id="userDetailMap" type="UserDetail">
-        <result property="detailId" column="detail_id"/>
-        <result property="nickname" column="nickname"/>
-        <result property="realName" column="realName"/>
-        <result property="sex" column="sex"/>
-        <result property="birthday" column="birthday"/>
-        <result property="phone" column="phone"/>
-        <result property="email" column="email"/>
-        <result property="headImg" column="head_img"/>
-        <result property="sellingCount" column="selling_count"/>
-        <result property="soldCount" column="sold_count"/>
-        <result property="collectCount" column="collect_count"/>
-        <result property="buyCount" column="buy_count"/>
-        <association property="curAddr" column="cur_addr"
-                     javaType="UserAddr" select="findUserAddrById"/>
-    </resultMap>
-    <select id="findUserDetailById" resultMap="userDetailMap">
+    <select id="findUserDetailById" resultType="UserDetail">
         select * from user_detail where detail_id=#{user_detail}
     </select>
 
     <select id="findUserAddrById" resultType="UserAddr">
-        select * from user_addr where user_id=#{id}
+        select * from user_addr where user_id=#{id} order by is_home desc
     </select>
 
     <update id="updateUserDetailById">

@@ -31,9 +31,9 @@ public interface UserMapper {
 
     /**
      * 注册用户，添加UserDetail对象到数据库
-     * @param nickname：用户名作为默认昵称
+     * @param userDetail：只有属性nickname有值，添加到数据库后会将主键返回到该实体中
      */
-    void saveUserDetail(String nickname);
+    void saveUserDetail(UserDetail userDetail);
 
     /**
      * 查找用户详情对象

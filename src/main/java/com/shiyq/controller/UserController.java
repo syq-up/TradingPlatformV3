@@ -91,7 +91,7 @@ public class UserController {
      * @return  返回
      */
 //    @PreAuthorize("hasRole('user')")
-    @RequestMapping("/userInfo/{userId}")
+    @GetMapping("/userInfo/{userId}")
     public String showUserInfo(@PathVariable int userId,
                                Model model){
         List<UserAddr> userAddrList = userService.findUserAddrById(userId);
@@ -124,8 +124,10 @@ public class UserController {
      * @return 返回
      */
 //    @PreAuthorize("hasRole('user')")
-    @RequestMapping("/userModify")
-    public String toModifyJsp(){
+    @GetMapping("/userModify/{userId}")
+    public String toModifyJsp(@PathVariable int userId, Model model){
+        List<UserAddr> userAddrList = userService.findUserAddrById(userId);
+        model.addAttribute("userAddrList",userAddrList);
         return "me-info-modify";
     }
 }

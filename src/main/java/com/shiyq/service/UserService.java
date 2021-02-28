@@ -55,9 +55,7 @@ public class UserService {
      * @param user  用户对象
      */
     public void saveUser(User user){
-        // TODO 数据库表设计还有点问题
-        //  这里是在user_detail表同步插入数据，以保证和user表id相同
-        userMapper.saveUserDetail(user.getUserName());
+        userMapper.saveUserDetail(user.getUserDetail());
         user.setUserPwd(passwordEncoder.encode(user.getUserPwd()));
         userMapper.saveUser(user);
     }

@@ -54,7 +54,7 @@
     </select>
 
     <select id="findUserAddrById" resultType="UserAddr">
-        select * from user_addr where user_id=#{id}
+        select * from user_addr where user_id=#{id} and is_home=1
     </select>
 
     <select id="findSingleGoodsById" resultMap="goodsMap">
@@ -65,7 +65,7 @@
         select * from goods_guestbook where goods_id=#{goodsId}
     </select>
 
-    <insert id="saveGoods">
+    <insert id="saveGoods" useGeneratedKeys="true" keyProperty="goodsId">
         insert into goods(user_detail, goods_img, goods_name, new_price, old_price,
                           quality, trade_way, goods_detail, sort, last_edit_time, state)
         values (#{userDetail.detailId}, #{goodsImg}, #{goodsName}, #{newPrice}, #{oldPrice},
@@ -86,10 +86,13 @@
         select * from goods_collection where user_id=#{userId}
     </select>
 
-    <insert id="saveCollectionByUserIdAndGoodsId" parameterType="hashMap">
-        insert into goods_collection (user_id, goods)
-        values (#{userId}, #{goodsId})
+    <insert id="saveCollectionByUserIdAndGoodsId">
+        insert into goods_collection (user_id, goods) values (#{userId}, #{goodsId})
     </insert>
+
+    <select id="findCollectionByUserIdAndGoodsId" resultType="int">
+        select count(*) from goods_collection where user_id=#{userId} and goods=#{goodsId}
+    </select>
 
     <delete id="deleteCollectionById">
         delete from goods_collection where collection_id=#{collectionId}
@@ -107,8 +110,7 @@
     </select>
 
     <insert id="saveOrder">
-        insert into user_order (user_id, goods, datetime)
-        values (#{userId}, #{goods.goodsId}, #{datetime})
+        insert into user_order (user_id, goods, datetime) values (#{userId}, #{goods.goodsId}, #{datetime})
     </insert>
 
     <delete id="deleteOrderById">

@@ -77,7 +77,7 @@ public class UploadFile {
     }
 
     /**
-     * 创建与springboot打包的jar同级路径
+     * 创建与springboot打包的jar同级的static的upload文件夹
      */
     public static void createDirIfNotExists() {
         if (!absolutePath.isEmpty()) return;

@@ -5,6 +5,7 @@ import com.shiyq.pojo.GoodsCollection;
 import com.shiyq.pojo.GoodsGuestbook;
 import com.shiyq.pojo.UserOrder;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,9 +56,18 @@ public interface GoodsMapper {
 
     /**
      * 添加收藏
-     * @param hashMap 收藏
+     * @param userId 当前用户id
+     * @param goodsId 收藏的商品id
      */
-    int saveCollectionByUserIdAndGoodsId(HashMap<String, Integer> hashMap);
+    Integer saveCollectionByUserIdAndGoodsId(@Param("userId")Integer userId, @Param("goodsId")Integer goodsId);
+
+    /**
+     * 查询商品是否已收藏
+     * @param userId 当前用户id
+     * @param goodsId 收藏的商品id
+     * @return 查询到的收藏数：0/1
+     */
+    Integer findCollectionByUserIdAndGoodsId(@Param("userId")Integer userId, @Param("goodsId")Integer goodsId);
 
     /**
      * 删除收藏

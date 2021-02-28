@@ -29,7 +29,7 @@
             <span class="right2">55</span>
             &nbsp;&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;&nbsp;
             <span class="right1">最后编辑时间：</span>
-            <span class="right2" th:text="${goods.lastEditTime}"></span>
+            <span class="right2" th:text="${#dates.format(goods.lastEditTime, 'yyyy-MM-dd  HH:mm')}"></span>
         </div>
     </div>
 
@@ -45,7 +45,7 @@
                     什么都没有呢X﹏X
                 </div>
 
-                <div th:each="msgItem:${msgList}">
+                <div th:unless="${msgList == null}" th:each="msgItem:${msgList}">
                     <div class="goods-detail-messages-item">
                         <div class="goods-detail-messages-name fl">
                             <span th:if="${msgItem.userNickname.equals(goods.userDetail.nickname)}" style="color: #ffd84d;">[卖家]：</span>
@@ -53,7 +53,7 @@
                         </div>
                         <div class="goods-detail-messages-msg fl">
                             [[${msgItem.message}]]<br/>
-                            <span class="date">[[${msgItem.datetime}]]</span>
+                            <span class="date">[[${#dates.format(msgItem.datetime, 'yyyy-MM-dd  HH:mm')}]]</span>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                        required maxlength="30" pattern="^[\u4E00-\u9FA5A-Za-z0-9_]+$">
                 <input class="button goods-detail-messages-button" type="submit" value="留言">
                 <div style="font-size: 14px;">
-                    *请输入不大与30字符的中文、英文、数字或下划线
+                    *中文、英文、数字或下划线，长度小于30
                 </div>
             </form>
         </div>
@@ -124,15 +124,9 @@
             </div>
             <div class="goods-detail-info-button fl">
                 <!--// TODO 购买功能-->
-                <form action="" method="post">
-                    <input type="submit" class="button button-buy" value="立即购买">
-                </form>
-                <form th:action="@{/goods/me-collection/save}" method="post" onsubmit="return collectCheck()">
-                    <input id="collect_userId" name="userId" th:value="(${session.user!=null} ? ${session.user.userId})" hidden>
-                    <input name="goodsId" th:value="${goods.goodsId}" hidden>
-                    <input type="submit" class="button button-collect" value="收藏">
-                </form>
-                <span th:if="${msg!=null}">[[${msg}]]</span>
+                <button id="buyBtn" class="button button-buy" href="">立即购买</button>
+                <button id="collectBtn" class="button button-collect" onclick="collectCheck()">收藏</button>
+                <span id="collectTip"></span>
             </div>
         </div>
 
@@ -148,14 +142,29 @@
 <!--footer-->
 <div th:replace="~{common/common::footer}"></div>
 
+<script th:src="@{https://cdn.bootcdn.net/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 <script>
     "use strict"
-    function collectCheck(){
-        let collect_userId = document.getElementById("collect_userId");
-        if (collect_userId.value.length===0){
-            window.location.href="/user/login";
-            return false;
-        }else return true;
+    function collectCheck() {
+        $.ajax({
+            type: "get",
+            url: "/goods/me-collection/save",
+            data: {"userId": [[${session.user.userId}]], "goodsId": [[${goods.goodsId}]]},
+            success: function (data) {
+                let collectTip = document.getElementById("collectTip");
+                if (data === "ok") {
+                    collectTip.style.color="green";
+                    collectTip.innerText="收藏成功";
+                } else if (data === "repetition") {
+                    collectTip.style.color="red";
+                    collectTip.innerText="已经收藏过了！";
+                } else {
+                    collectTip.style.color="red";
+                    collectTip.innerText="收藏失败，请重试！";
+                }
+
+            }
+        });
     }
 </script>
 </body>

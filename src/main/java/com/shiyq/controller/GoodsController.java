@@ -10,12 +10,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -72,59 +70,35 @@ public class GoodsController {
         return "show-all-goods";
     }
 
-    @RequestMapping("/single/{goodsId}")
-    public String toShowSingleGoods(@PathVariable int goodsId){
-        return "redirect:/goods/single/"+goodsId+"/0";
-    }
-
     /**
      * 查询展示单个商品
-     * @param goodsId   商品id
-     * @param msg       购买/收藏操作执行信息
-     * @param model     返回商品对象
+     * @param goodsId 商品id
+     * @param model 携带商品对象
      * @return  返回页面
      */
-    @RequestMapping("/single/{goodsId}/{msg}")
-    public String showSingleGoods(@PathVariable int goodsId,
-                                  @Nullable @PathVariable String msg,
-                                  Model model){
+    @RequestMapping("/single/{goodsId}")
+    public String showSingleGoods(@PathVariable Integer goodsId, Model model){
         Goods goods = goodsService.findSingleGoodsById(goodsId);
         model.addAttribute("goods", goods);
-        List<GoodsGuestbook> msgList = goodsService.findAllMsgByGoodsId(goodsId);
-        model.addAttribute("msgList", msgList);
-        if ("0".equals(msg))
-            model.addAttribute("msg", null);
-        else if ("success".equals(msg))
-            model.addAttribute("msg", "收藏成功");
-        else if ("error".equals(msg))
-            model.addAttribute("msg","收藏失败，请重试！");
         return "show-single-goods";
     }
 
     /**
      * 添加商品
      * @param goods 页面传来的商品对象
-     * @param model 写入商品对象返回页面
+     * @param files 上传的商品图片
      * @return  返回此添加商品页面
      */
-//    @PreAuthorize("hasRole('user')")
     @PostMapping("/save")
-    public String saveGoods(@ModelAttribute Goods goods,
-                            @RequestParam("files") MultipartFile[] files,
-                            HttpServletRequest request,
-                            Model model)
-            throws IOException {
-        //goods.setLastEditTime(new java.sql.Timestamp(new Date().getTime()));
+    public String saveGoods(@ModelAttribute Goods goods, @RequestParam("files") MultipartFile[] files) {
         goodsService.saveGoods(goods, files);
-        model.addAttribute("goods", goods);
-        return "show-single-goods";
+        return "redirect:/goods/single/"+goods.getGoodsId();
     }
 
     /**
      * 转到添加商品页面
      * @return 返回页面
      */
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/add")
     public String toAddJsp(){
         return "add-goods";
@@ -137,13 +111,12 @@ public class GoodsController {
      * @param model     写入商品集合
      * @return  返回
      */
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-goods/{pageNum}")
     public String showMyGoods(@PathVariable int pageNum,
                               HttpSession session,
                               Model model){
         User user = (User)session.getAttribute("user");
-        Page<Goods> page = PageHelper.startPage(pageNum,3);
+        Page<Goods> page = PageHelper.startPage(pageNum,1);
         List<Goods> goodsList = goodsService.findAllMyGoodsByUserId(user.getUserId());
         model.addAttribute("pageNum",pageNum);  // 当前页数
         model.addAttribute("totalPages",page.getPages());// 总页数
@@ -157,18 +130,16 @@ public class GoodsController {
      * @param goodsId   商品id
      * @return  返回商品页面，显示收藏操作执行信息
      */
-//    @PreAuthorize("hasRole('user')")
-    @RequestMapping("/me-collection/save")
-    public String saveCollection(@RequestParam("userId")int userId,
-                                 @RequestParam("goodsId")int goodsId){
-        HashMap<String, Integer> hashMap = new HashMap<String, Integer>();
-        hashMap.put("userId", userId);
-        hashMap.put("goodsId", goodsId);
-        int i = goodsService.saveCollectionByUserIdAndGoodsId(hashMap);
+    @ResponseBody
+    @GetMapping("/me-collection/save")
+    public String saveCollection(@RequestParam("userId")Integer userId, @RequestParam("goodsId")Integer goodsId){
+        int i = goodsService.saveCollectionByUserIdAndGoodsId(userId, goodsId);
         if (i==1)
-            return "redirect:/goods/single/" + goodsId + "/success";
+            return "ok";
+        else if (i==2)
+            return "repetition";
         else
-            return "redirect:/goods/single/" + goodsId + "/error";
+            return "error";
     }
 
     /**
@@ -177,10 +148,8 @@ public class GoodsController {
      * @param pageNum   页数
      * @return  返回
      */
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-collection/delete/{collectionId}/{pageNum}")
-    public String deleteCollection(@PathVariable int collectionId,
-                                   @PathVariable int pageNum){
+    public String deleteCollection(@PathVariable int collectionId, @PathVariable int pageNum){
         goodsService.deleteCollectionById(collectionId);
         return "redirect:/goods/me-collection/"+pageNum;
     }
@@ -192,28 +161,23 @@ public class GoodsController {
      * @param model     写入收藏集合
      * @return  返回
      */
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-collection/{pageNum}")
-    public String showMyCollection(@PathVariable int pageNum,
-                                   HttpSession session,
-                                   Model model){
+    public String showMyCollection(@PathVariable int pageNum, HttpSession session, Model model){
         User user = (User)session.getAttribute("user");
         Page<GoodsCollection> page = PageHelper.startPage(pageNum,3);
-        List<GoodsCollection> goodsCollectionList = goodsService.findAllMyCollectionByUserId(user.getUserId());
+        List<GoodsCollection> collectionList = goodsService.findAllMyCollectionByUserId(user.getUserId());
         model.addAttribute("pageNum",pageNum);  // 当前页数
         model.addAttribute("totalPages",page.getPages());// 总页数
-        model.addAttribute("goodsCollectionList", goodsCollectionList); // 商品集合
+        model.addAttribute("collectionList", collectionList); // 商品集合
         return "me-collection";
     }
 
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-order/buy")
     public String saveOrder(@ModelAttribute UserOrder userOrder){
         goodsService.saveOrder(userOrder);
         return "";
     }
 
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-order/delete/{orderId}/{pageNum}")
     public String deleteOrder(@PathVariable int orderId,
                               @PathVariable int pageNum){
@@ -228,18 +192,17 @@ public class GoodsController {
      * @param model     写入订单集合
      * @return  返回
      */
-//    @PreAuthorize("hasRole('user')")
     @RequestMapping("/me-order/{pageNum}")
     public String showMyOrder(@PathVariable int pageNum,
                               HttpSession session,
                               Model model){
         User user = (User)session.getAttribute("user");
         Page<UserOrder> page = PageHelper.startPage(pageNum,3);
-        List<UserOrder> userOrderList = goodsService.findAllMyOrderByUserId(user.getUserId());
+        List<UserOrder> orderList = goodsService.findAllMyOrderByUserId(user.getUserId());
         model.addAttribute("pageNum",pageNum);  // 当前页数
         model.addAttribute("totalPages",page.getPages());// 总页数
-        model.addAttribute("userOrderList", userOrderList); // 商品集合
-        return "me-orders";
+        model.addAttribute("orderList", orderList); // 商品集合
+        return "me-order";
     }
 
 }

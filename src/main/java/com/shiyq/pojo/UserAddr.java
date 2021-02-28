@@ -8,6 +8,7 @@ public class UserAddr {
     private String city;
     private String county;
     private String detail;
+    private Integer isHome = 0;
 
     public UserAddr() {
     }
@@ -69,4 +70,11 @@ public class UserAddr {
         this.detail = detail;
     }
 
+    public Integer getIsHome() {
+        return isHome;
+    }
+
+    public void setIsHome(Integer isHome) {
+        this.isHome = isHome;
+    }
 }

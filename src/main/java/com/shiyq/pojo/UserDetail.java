@@ -21,20 +21,8 @@ public class UserDetail {
     public UserDetail() {
     }
 
-    public UserDetail(Integer detailId, String nickname, String realName, String sex, Date birthday, String phone, String email, String headImg, UserAddr curAddr, Integer sellingCount, Integer soldCount, Integer collectCount, Integer buyCount) {
-        this.detailId = detailId;
+    public UserDetail(String nickname) {
         this.nickname = nickname;
-        this.realName = realName;
-        this.sex = sex;
-        this.birthday = birthday;
-        this.phone = phone;
-        this.email = email;
-        this.headImg = headImg;
-        this.curAddr = curAddr;
-        this.sellingCount = sellingCount;
-        this.soldCount = soldCount;
-        this.collectCount = collectCount;
-        this.buyCount = buyCount;
     }
 
     public int getDetailId() {

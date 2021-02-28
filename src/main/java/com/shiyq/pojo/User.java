@@ -28,6 +28,7 @@ public class User implements UserDetails {
         this.userName = userName;
         this.userPwd = userPwd;
         this.userReg = new Date();
+        this.userDetail = new UserDetail(userName);
     }
 
     public User(Integer userId, String userName, String userPwd, Date userReg, UserDetail userDetail) {
