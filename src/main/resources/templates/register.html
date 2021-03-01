@@ -11,7 +11,7 @@
 </head>
 <body style="text-align: center!important;">
 <form id="form" class="form-signin" th:action="@{/user/register}" method="post" onsubmit="return encrypt()">
-    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72" th:src="@{/">
+    <img class="mb-4" th:src="@{/upload/userHeadImg/user-default-headImage.jpg}" alt="" width="72" height="72">
     <h1 class="h3 mb-3 font-weight-normal" th:text="加入我们"></h1>
     <label class="sr-only" for="username" th:text="用户名"></label>
     <input type="text" class="form-control" id="username" name="username" th:placeholder="用户名" onblur="ajaxCheck()" required autofocus>

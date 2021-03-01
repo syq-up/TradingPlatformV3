@@ -5,16 +5,12 @@ import com.github.pagehelper.PageHelper;
 import com.shiyq.pojo.*;
 import com.shiyq.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,9 +53,7 @@ public class GoodsController {
      * @return  返回页面
      */
     @RequestMapping("/all/{sort}/{pageNum}")
-    public String showAllGoodsBySortAndPageNum(@PathVariable String sort,
-                                               @PathVariable int pageNum,
-                                               Model model){
+    public String showAllGoodsBySortAndPageNum(@PathVariable String sort, @PathVariable int pageNum, Model model){
         Page<Goods> page = PageHelper.startPage(pageNum, PAGE_SIZE);
         List<Goods> goodsList = goodsService.findAllGoodsBySort(sort);
 
@@ -80,6 +74,7 @@ public class GoodsController {
     public String showSingleGoods(@PathVariable Integer goodsId, Model model){
         Goods goods = goodsService.findSingleGoodsById(goodsId);
         model.addAttribute("goods", goods);
+        model.addAttribute("numOfImages", Integer.valueOf(goods.getGoodsImg().substring(0, 1)));
         return "show-single-goods";
     }
 
@@ -112,9 +107,7 @@ public class GoodsController {
      * @return  返回
      */
     @RequestMapping("/me-goods/{pageNum}")
-    public String showMyGoods(@PathVariable int pageNum,
-                              HttpSession session,
-                              Model model){
+    public String showMyGoods(@PathVariable int pageNum, HttpSession session, Model model){
         User user = (User)session.getAttribute("user");
         Page<Goods> page = PageHelper.startPage(pageNum,1);
         List<Goods> goodsList = goodsService.findAllMyGoodsByUserId(user.getUserId());
@@ -126,14 +119,15 @@ public class GoodsController {
 
     /**
      * 添加收藏
-     * @param userId    用户id
      * @param goodsId   商品id
+     * @param session 获取当前用户id
      * @return  返回商品页面，显示收藏操作执行信息
      */
     @ResponseBody
     @GetMapping("/me-collection/save")
-    public String saveCollection(@RequestParam("userId")Integer userId, @RequestParam("goodsId")Integer goodsId){
-        int i = goodsService.saveCollectionByUserIdAndGoodsId(userId, goodsId);
+    public String saveCollection(@RequestParam("goodsId")Integer goodsId, HttpSession session){
+        User user = (User) session.getAttribute("user");
+        int i = goodsService.saveCollectionByUserIdAndGoodsId(user.getUserId(), goodsId);
         if (i==1)
             return "ok";
         else if (i==2)
@@ -179,8 +173,7 @@ public class GoodsController {
     }
 
     @RequestMapping("/me-order/delete/{orderId}/{pageNum}")
-    public String deleteOrder(@PathVariable int orderId,
-                              @PathVariable int pageNum){
+    public String deleteOrder(@PathVariable int orderId, @PathVariable int pageNum){
         goodsService.deleteOrderById(orderId);
         return "redirect:/goods/me-order/"+pageNum;
     }
@@ -193,9 +186,7 @@ public class GoodsController {
      * @return  返回
      */
     @RequestMapping("/me-order/{pageNum}")
-    public String showMyOrder(@PathVariable int pageNum,
-                              HttpSession session,
-                              Model model){
+    public String showMyOrder(@PathVariable int pageNum, HttpSession session, Model model){
         User user = (User)session.getAttribute("user");
         Page<UserOrder> page = PageHelper.startPage(pageNum,3);
         List<UserOrder> orderList = goodsService.findAllMyOrderByUserId(user.getUserId());

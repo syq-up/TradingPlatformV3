@@ -34,8 +34,13 @@
     </div>
 
     <div class="goods-detail-left fl">
-        <div class="goods-detail-img fl" style="text-align: center;">
-            <img style="max-width: 690px; max-height: 580px;" th:src="@{'/upload/goodsImg/'+${goods.goodsImg}+'/1.jpg'}"/>
+        <div id="goods-img-div" class="goods-detail-img fl" style="text-align: center; margin-bottom: 10px;">
+            <img id="goods-img" style="max-width: 690px; max-height: 580px;" th:src="@{'/upload/goodsImg/'+${goods.goodsImg}+'/1.jpg'}"/>
+        </div>
+        <div class="fl" style="text-align: center;min-width: 170px; min-height: 30px; padding: 0 260px; margin-bottom: 10px;">
+            <div class="page-item fl" th:each="i:${#numbers.sequence(1, (5-numOfImages)/2)}"></div>
+            <button th:each="i:${#numbers.sequence(1, numOfImages)}" class="page-item fl" style="background-color: #ffd84d;" th:onclick="|imgChoose(${i})|">[[${i}]]</button>
+            <div class="page-item fl" th:each="i:${#numbers.sequence(1, (5-numOfImages)/2)}"></div>
         </div>
         <div class="goods-detail-messages fl">
             <div class="goods-detail-messages-top">留言板</div>
@@ -149,7 +154,7 @@
         $.ajax({
             type: "get",
             url: "/goods/me-collection/save",
-            data: {"userId": [[${session.user.userId}]], "goodsId": [[${goods.goodsId}]]},
+            data: {"goodsId": [[${goods.goodsId}]]},
             success: function (data) {
                 let collectTip = document.getElementById("collectTip");
                 if (data === "ok") {
@@ -165,6 +170,10 @@
 
             }
         });
+    }
+    function imgChoose(i) {
+        let goods_img = document.getElementById("goods-img");
+        goods_img.src='/upload/goodsImg/'+'[[${goods.goodsImg}]]'+'/'+i+'.jpg';
     }
 </script>
 </body>

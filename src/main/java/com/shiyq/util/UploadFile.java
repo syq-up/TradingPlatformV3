@@ -53,7 +53,7 @@ public class UploadFile {
         createDirIfNotExists();
 
         // 为文件再创建一级目录防止重名
-        String uuidPath = UUID.randomUUID().toString();
+        String uuidPath = files.length + UUID.randomUUID().toString();
         File uploadPath = new File(absolutePath + "goodsImg\\" + uuidPath);
         if (!uploadPath.exists()){
             uploadPath.mkdirs();
