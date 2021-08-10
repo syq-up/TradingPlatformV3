@@ -1,6 +1,6 @@
 # 二手商城平台（……）
 
-初学springboot，还有很多~~瑕疵~~（缺陷）
+初学springboot，还有很多瑕疵
 
 ssm转springboot，部分jsp还没有转换为template
 
